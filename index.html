@@ -85,23 +85,140 @@
       <button>Console Trace</button>
       <button>Trigger a Global Error</button>
     </section>
-  </main>
-
+  </main>                        
   <script>
+    //error class
+    class Error {
+      constructor(message){
+        this.message = message; 
+        this.name = 'Error';
+      }
+    }
+
+    //UnexpectedTokenError class
+    class UnexpectedTokenError extends Error{
+      constructor(message){
+        super(message);
+        this.name = 'UnexpectedTokenError';
+      }
+    }
+    //function that will throw the error
+    function throwError(){
+      throw new UnexpectedTokenError('There is an unexpected token in the input. Please enter a number');
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        try{
+          if(!typeof firstNum === 'number'){
+            throwError();
+          }
+          if(!typeof secondNum === 'number'){
+            throwError();
+          }
+          output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        }
+        catch(error){
+          console.log('this is the error message: ', error.message);
+          console.error('this is the error: ', error.name);
+        }
+        finally{
+          console.log('enter another input to calculate');
+        }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    
+    //console.log demo 
+    errorBtns[0].addEventListener('click', function(){
+      console.log('Console Log Demo')});
+
+    //console.error demo 
+    errorBtns[1].addEventListener('click', function(){
+      console.error('Console Error Demo')});
+
+    //console.count demo
+    errorBtns[2].addEventListener('click', function(){
+      console.count('Count button demo')});
+
+    //console.warn demo
+    errorBtns[3].addEventListener('click', function(){
+      console.warn('Console warn Demo')});
+
+    //console.assert demo 
+    errorBtns[4].addEventListener('click', function(){
+      let reason = 'numbers are not equal';
+      let x = 1; 
+      let y = 2; 
+      console.assert(x == y, {x, y, reason})});
+
+    //console.clear demo
+    errorBtns[5].addEventListener('click', function(){
+      console.clear()});
+
+    //console.dir demo
+    errorBtns[6].addEventListener('click', function(){
+      console.dir(document.body)});
+
+    //console.dirxml demo
+    errorBtns[7].addEventListener('click', function(){
+      console.dirxml(document)});
+
+    //console.group demo
+    errorBtns[8].addEventListener('click', function(){
+      console.group('console group demo')});
+
+    //console.groupEnd demo
+    errorBtns[9].addEventListener('click', function(){
+      console.groupEnd()});
+
+    //console.table demo
+    errorBtns[10].addEventListener('click', function(){
+      console.table([
+        {
+          className: 'cse110',
+          professor: 'Powell',
+        },
+        {
+          className: 'cse100',
+          professor: 'Moshiri',
+        },
+        {
+          className: 'cse101',
+          professor: 'Jones',
+        }
+      ])});  
+
+
+    //console.time demo
+    errorBtns[11].addEventListener('click', function(){
+      console.time()});  
+
+    //console.timeEnd demo
+    errorBtns[12].addEventListener('click', function(){
+      console.timeEnd()}); 
+    
+    //console.trace demo
+    errorBtns[13].addEventListener('click', function(){
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { evenDeeper(); };
+      const evenDeeper = () => {console.trace()};
+      deep();
+    });  
+
+    //trigger a global error demo 
+    errorBtns[14].addEventListener('click', function (){
+
+    });                        
   </script>
 </body>
 
